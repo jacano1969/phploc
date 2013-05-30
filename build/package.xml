@@ -37,6 +37,7 @@
        <file baseinstalldir="/" name="History.php" role="php" />
        <file baseinstalldir="/" name="Single.php" role="php" />
       </dir>
+      <file baseinstalldir="/" name="Chart.php" role="php" />
       <file baseinstalldir="/" name="XML.php" role="php" />
      </dir>
      <dir name="TextUI">
@@ -71,6 +72,11 @@
     <name>ConsoleTools</name>
     <channel>components.ez.no</channel>
     <min>1.6</min>
+   </package>
+   <package>
+    <name>Graph</name>
+    <channel>components.ez.no</channel>
+    <min>1.5</min>
    </package>
    <package>
     <name>FinderFacade</name>

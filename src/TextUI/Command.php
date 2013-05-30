@@ -49,6 +49,7 @@ namespace SebastianBergmann\PHPLOC\TextUI
     use SebastianBergmann\PHPLOC\Analyser;
     use SebastianBergmann\PHPLOC\Log\CSV\History;
     use SebastianBergmann\PHPLOC\Log\CSV\Single;
+    use SebastianBergmann\PHPLOC\Log\Chart;
     use SebastianBergmann\PHPLOC\Log\XML;
 
     /**
@@ -122,6 +123,14 @@ namespace SebastianBergmann\PHPLOC\TextUI
                 FALSE,
                 FALSE,
                 TRUE
+               )
+            );
+
+            $input->registerOption(
+              new \ezcConsoleOption(
+                '',
+                'chart',
+                \ezcConsoleInput::TYPE_STRING
                )
             );
 
@@ -209,6 +218,7 @@ namespace SebastianBergmann\PHPLOC\TextUI
             $countTests   = $input->getOption('count-tests')->value;
             $gitRepo      = $input->getOption('git-repository')->value;
             $excludes     = $input->getOption('exclude')->value;
+            $chart        = $input->getOption('chart')->value;
             $logXml       = $input->getOption('log-xml')->value;
             $logCsv       = $input->getOption('log-csv')->value;
             $names        = explode(',', $input->getOption('names')->value);
@@ -282,6 +292,11 @@ namespace SebastianBergmann\PHPLOC\TextUI
 
                 $git->checkout($currentBranch);
 
+                if ($chart) {
+                    $renderer = new Chart;
+                    $renderer->render($chart, $count);
+                }
+
                 if ($logCsv) {
                     $printer = new History;
                     $printer->printResult($logCsv, $count);
@@ -330,6 +345,7 @@ Usage: phploc [switches] <directory|file> ...
   --git-repository         The (single) directory that is given is a Git
                            repository. In this case, --log-csv will write one
                            line of data per revision of the repository.
+  --chart <file>           Render a line chart of the history data to file.
 
   --count-tests            Count PHPUnit test case classes and test methods.
 
